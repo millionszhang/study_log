@@ -1,0 +1,315 @@
+#### **业务逻辑**
+
+#### **1、dao层**
+
+ dao层主要做数据持久层的工作， 负责与数据库进行联络的一些任务都封装在此 ，dao层的设计 首先 是设计dao层的接口，然后在Spring的配置文件中定义此接口的实现类，然后就可以再模块中调用此接口来进行数据业务的处理，而不用关心此接口的具体实现类是哪个类，显得结构非常清晰，dao层的数据源配置，以及有关数据库连接参数都在Spring配置文件中进行配置。
+
+ **2、service层**
+
+ service层主要负责业务模块的应用逻辑应用设计。同样是 首先设计接口 ， 再设计其实现类 ，接着再Spring的配置文件中配置其实现的关联。这样我们就可以在应用中调用service接口来进行业务处理。service层的业务实， 具体要调用已经定义的dao层接口 ，封装service层业务逻辑有利于通用的业务逻辑的独立性和重复利用性。程序显得非常简洁。
+
+ **3、controller层**
+
+ controller层 负责具体的业务模块流程的控制 ，在此层要 调用service层的接口来控制业务流程 ，控制的配置也同样是在Spring的配置文件里进行，针对具体的业务流程，会有不同的控制器。我们具体的设计过程可以将流程进行抽象归纳，设计出可以重复利用的子单元流程模块。 这样不仅使程序结构变得清晰，也大大减少了代码量。
+
+ **4、view层**
+
+ view层与控制层结合比较紧密，需要二者结合起来协同开发。view层主要负责前台jsp页面的显示。
+
+ 
+
+ **5、它们之间的关系：**
+
+ Service层是建立在DAO层之上的，建立了DAO层后才可以建立Service层，而Service层又是在Controller层之下的，因而 Service层应该既调用DAO层的接口，又要提供接口给Controller层的类来进行调用，它刚好处于一个中间层的位置。 每个模型都有一个Service接口，每个接口分别封装各自的业务处理方法。 
+
+零:业务逻辑
+        Controller-->service接口-->serviceImpl-->dao接口-->daoImpl-->mapper-->db
+
+ 一：Dao(Data Access Object):数据存储对象
+       DAO = Data Access Object = 数据存取对象. 不管是什么框架，我们很多时候都会与数据库进行交互。如果遇到一个场景我们都要去写SQL语句，那么我们的代码就会很冗余。所以，我们就想到了把数据库封装一下，让我们的数据库的交道看起来像和一个对象打交道，这个对象通常就是DAO。当我们操作这个对象的时候，这个对象会自动产生SQL语句来和数据库进行交互，我们就只需要使用DAO就行了。
+
+    通常我们在DAO层里面写接口，里面有与数据打交道的方法。SQL语句通常写在mapper文件里面的。
+    
+    优点：结构清晰，Dao层的数据源配置以及相关的有关数据库连接的参数都在Spring配置文件中进行配置。
+
+二：Service：服务
+       服务是一个相对独立的功能模块，主要负责业务逻辑应用设计。首先也要设计接口，然后再设计其实现该接口的类。这样我们就可以在应用中调用service接口进行业务处理。service层业务实现，具体调用到已经定义的DAO的接口，封装service层的业务逻辑有利于通用的业务逻辑的独立性和重复利用性 。
+
+     如果把Dao层当作积木，则Service层则是对积木的搭建。
+
+三：Controller：控制器
+       主要负责具体业务模块流程的控制，此层要调用到Service层的接口去控制业务流程，控制的配置同样在Spring配置文件中配置。针对不同的业务流程有不同的控制器。在设计的过程可以设计出重复利用的子单元流程模块。
+
+ 
+
+ 四：model：模型
+ 模型就是指视图的数据Model，模型，通常来讲，我们会把模型和另一个东西放在一起来说：View，视图。
+
+模型通常认为是视图的内核，何谓之视图？我们正在与之交互的网站的界面就是视图，而模型是指他的内核：数据。
+
+        将Model和View的概念拆分开来，有助于我们关注不同的方面，也可以更有效的分工。有些工程师更关注于内核也就是模型，通常来说，他们被称之为后端工程师。有些工程师更关注于用户界面的交互和展示，通常来说，他们被称之为前端工程师。
+
+五: View层：
+       与Controller层关系紧密，View层主要负责前台jsp页面的表示。
+
+ 
+
+六: 它们之间的关系：
+      建立了DAO层后才可以建立Service层，而Service层又是在Controller层之下的，因而Service层应该既调用DAO层的接口，又要提供接口给Controller层的类来进行调用，它刚好处于一个中间层的位置。每个模型都有一个Service接口，每个接口分别封装各自的业务处理方法。
+
+
+
+
+
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczMuYmRzdGF0aWMuY29tLzcwY0Z2OFNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTY1ODc1NzYzNCwzMTUzMjQ0OTA1JmZtPTI2JmdwPTAuanBn?x-oss-process=image/format,png)
+
+
+
+
+
+
+confing 是配置类
+
+#### mapper 层
+
+配置文件
+
+SqlMapConfig.xml配置文件。它是mybatis的入口，也就是核心配置文件。
+在
+
+![img](http://zuohaotu.com/Download/112417180950_016cfcbec8374eaf5155a2c1777622d9.png)
+
+如图所示 Mapper需要在xml文件的配置
+
+![image-20211124172641606](C:\Users\zyw18\AppData\Roaming\Typora\typora-user-images\image-20211124172641606.png)
+
+MyBatis 的真正强大在于它的映射语句，也是它的魔力所在。由于它的异常强大，映射器的 XML 文件就显得相对简单。如果拿它跟具有相同功能的 JDBC 代码进行对比，你会立即发现省掉了将近 95% 的代码。MyBatis 就是针对 SQL 构建的，并且比普通的方法做的更好。
+
+SQL 映射文件有很少的几个顶级元素（按照它们应该被定义的顺序）：
+
+- `cache` – 给定命名空间的缓存配置。
+- `cache-ref` – 其他命名空间缓存配置的引用。
+- `resultMap` – 是最复杂也是最强大的元素，用来描述如何从数据库结果集中来加载对象。
+- \~~~~`parameterMap`~~ – 已废弃！老式风格的参数映射。内联参数是首选,这个元素可能在将来被移除，这里不会记录。~~
+- `sql` – 可被其他语句引用的可重用语句块。
+- `insert` – 映射插入语句
+- `update` – 映射更新语句
+- `delete` – 映射删除语句
+- `select` – 映射查询语句
+
+#### CorsConfig
+
+目的：解决springboot跨域请求的问题
+注：
+
+    1、这个解决的方法在网上直接都可以搜索到。基本都是三种解决办法。说第一种解决不了 500错误继续什么什么的。。。 
+    
+    2、这都不重要重要的是，他们给出了代码。我们却不知道怎用。
+    
+    3、我在这个上面做出了解释，和添加了一条，解决session 两次获取不一样的问题后台解决。
+
+第一种 （CorsConfig ） 
+    解释全部写在了代码里面，把以下代码，放在controller下面就可以了
+
+
+
+```java
+package com.xdx97.backstage.controller;
+ 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+ 
+/**
+ * 解决跨域请求的
+ */
+ 
+@Configuration
+public class CorsConfig {
+    
+ 	// 当前跨域请求最大有效时长。这里默认1天
+    private static final long MAX_AGE = 24 * 60 * 60;
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        //  你需要跨域的地址  注意这里的 127.0.0.1 != localhost
+        // * 表示对所有的地址都可以访问
+        corsConfiguration.addAllowedOrigin("http://localhost:3030");
+        //  跨域的请求头
+        corsConfiguration.addAllowedHeader("*"); // 2
+        //  跨域的请求方法
+        corsConfiguration.addAllowedMethod("*"); //
+        //加上了这一句，大致意思是可以携带 cookie
+        //最终的结果是可以 在跨域请求的时候获取同一个 session
+ 		corsConfiguration.setMaxAge(MAX_AGE);
+ 		corsConfiguration.setAllowCredentials(true);
+        return corsConfiguration;
+    }
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        //配置 可以访问的地址
+        source.registerCorsConfiguration("/**", buildConfig()); // 4
+        return new CorsFilter(source);
+    }
+
+
+```
+
+
+
+#### Knife4jConfiguration
+
+Knife4j是一个为Swagger接口文档赋能的工具
+
+```java
+@Configuration
+@EnableSwagger2WebMvc
+public class Knife4jConfiguration {
+
+    // 地址 ip:port/doc
+    @Bean(value = "SpringBoot-Vue-Demo-Api")//
+    public Docket cloudMallApi() {
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(new ApiInfoBuilder()
+                        .title("接口文档列表")
+                        .description("接口文档")
+                        .termsOfServiceUrl("http://www.springboot.vue.com")
+                        .version("1.0")
+                        .build())
+                //分组名称
+                .groupName("2.X版本")
+                .select()
+                //这里指定Controller扫描包路径
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
+                .paths(PathSelectors.any())
+                .build();
+        return docket;
+    }
+}
+```
+
+
+
+
+
+#### MybatisPlusConfig
+
+
+
+@Configuration
+public class CustomMyBatisPlusConfig {
+
+```java
+@Configuration
+public class CustomMyBatisPlusConfig {
+/**
+ * 分页插件,一缓和二缓遵循mybatis的规则
+ */
+@Bean
+public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+    PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+    // 设置请求的页面大于最大页后操作， true调回到首页，false 继续请求  默认false
+    // paginationInnerInterceptor.setOverflow(false);
+    // 设置最大单页限制数量，默认 500 条，-1 不受限制
+    // paginationInnerInterceptor.setMaxLimit(500L);
+    interceptor.addInnerInterceptor(paginationInnerInterceptor);
+    return interceptor;
+}
+```
+
+```java
+@Test
+public void testSelectPage(){
+    //构建分页条件第二页每页显示3条
+    Page<User> page=new Page<>(2,3);
+    //使用分页条件查询，不使用其他条件
+    userMapper.selectPage(page, null);
+    //获取分页后查询出的记录
+    List<User> records = page.getRecords();
+    records.forEach(System.out::println);
+    System.out.println("是否有下一页："+page.hasNext());
+    System.out.println("是否有上一页："+page.hasPrevious());
+    System.out.println("总记录数："+page.getTotal());
+}
+```
+
+#### websocket
+
+WebSocket使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在WebSocket API中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
+
+
+
+#### 在spring中该如何使用DTO，以及DTO和Entity的关系
+
+\1. DTO是用于将后台的数据结构（javaBean）转换为对用户友好的表现方式的数据结构，同时也能防止后台数据直接传送到前台而存在的潜在危险。
+
+\2. 可以时候要哪个springbot框架提供的转换器接口： org.springframework.core.convert.converter.Converter，来实现实体类和DTO的转换
+
+\3. DTO是合理的分配应该是：一个entity对应两个DTO， 01. list列表页对应的DTO仅仅用于显示， 02新增编辑的页面对应的DTO拥有较为完整的和entity类似的数据结构用于存储前台数据
+
+\4. 当前页面需要使用别的entity时， 要首先使用别人的已有的DTO
+
+\5. DTO的conveter应该包括2个， DTO - entity ， entity - DTO
+
+
+
+#### bean
+
+1、所有属性为private
+
+2、提供默认构造方法
+
+3、提供getter和setter
+
+4、实现serializable接口
+
+JavaBean是公共Java类，但是为了编辑工具识别，需要满足至少三个条件：
+
+1. 有一个public默认构造器（例如无参构造器,）
+2. 属性使用public 的get，set方法访问，也就是说设置成private，同时get，set方法与属性名的大小也需要对应。例如属性name，get方法就要写成，public String get**N**ame(){},N大写。
+3. 需要序列化。这个是框架，工具跨平台反映状态必须的
+
+符合一定规范编写的Java类，不是一种技术，而是一种规范。大家针对这种规范，总结了很多开发技巧、工具函数。符合这种规范的类，可以被其它的程序员或者框架使用
+
+#### Spring boot 项目目录结构
+
+Spring Boot框架对工程结构并没有什么特殊的限制,只是良好的工程结构划分可以使项目更清晰,明确,减少不必要的冲突,提高代码的统一性.
+
+推荐工程结构示例：
+
+代码层的结构
+
+根目录：com.springboot
+
+1.工程启动类(ApplicationServer.java)置于com.springboot.build包下
+
+2.实体类(domain)置于com.springboot.domain
+
+3.数据访问层(Dao)置于com.springboot.repository
+
+4.数据服务层(Service)置于com,springboot.service,数据服务的实现接口(serviceImpl)至于com.springboot.service.impl
+
+5.前端控制器(Controller)置于com.springboot.controller
+
+6.工具类(utils)置于com.springboot.utils
+
+7.常量接口类(constant)置于com.springboot.constant
+
+8.配置信息类(config)置于com.springboot.config
+
+9.数据传输类(vo)置于com.springboot.vo
+
+资源文件的结构
+
+根目录:src/main/resources
+
+1.配置文件(.properties/.json等)置于config文件夹下
+
+2.国际化(i18n))置于i18n文件夹下
+
+3.spring.xml置于META-INF/spring文件夹下
+
+4.页面以及js/css/image等置于static文件夹下的各自文件下
