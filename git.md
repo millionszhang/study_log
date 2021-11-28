@@ -31,3 +31,10 @@ git clone https://github.com.cnpmjs.org/Hackergeek/architecture-samples
 git clone https://git.sdut.me/Hackergeek/architecture-samples
 ```
 
+git pull origin master  本地同步远程仓库，将远程仓库里的内容拉下来
+
+git rm -r --cached 文件名   删除文件
+
+git commit -m “delete dir”  提交并添加说明
+
+git push origin master 将本次更改更新到github项目上去
