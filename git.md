@@ -31,10 +31,39 @@ git clone https://github.com.cnpmjs.org/Hackergeek/architecture-samples
 git clone https://git.sdut.me/Hackergeek/architecture-samples
 ```
 
-git pull origin master  本地同步远程仓库，将远程仓库里的内容拉下来
+1.初始化本地仓库
 
-git rm -r --cached 文件名   删除文件
+```bash
+git init
+```
 
-git commit -m “delete dir”  提交并添加说明
+2.将所有文件添加到本地仓库（也可添加你所需的文件）
 
-git push origin master 将本次更改更新到github项目上去
+```bash
+git add .
+```
+
+3.将项目提交到本地git仓库 （“first commit” 是备注信息）
+
+```bash
+git commit -m "first commit"
+```
+
+
+4.本地git仓库与远程仓库关联（两种方式：1.https方式；2.SSL方式）
+
+```bash
+git remote add origin https://github.com/JianhaoChung/DGL_GCNER.git
+```
+
+或
+
+```bash
+git remote add origin  git@github.com:JianhaoChung/DGL_GCNER.git
+```
+
+5.将项目推送到远程仓库
+
+```bash
+git push -u origin master
+```
