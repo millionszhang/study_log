@@ -6,8 +6,6 @@ java 集合 list 和set
 
 集合 遍历删除
 
-
-
 arraylist 去重
 
 
@@ -18,35 +16,51 @@ hashmap 的put 过程
 
 转换红黑树过程
 
-hashmap负载因子是多少
+hashmap负载因子是多少 
+
+0.75
 
 java中的反射
+[反射机制](https://so.csdn.net/so/search?from=pc_blog_highlight&q=反射机制)就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了
 
 那些设计模式
 
-beanfactory 和 applicationcontext两个容器的区别
+#### beanfactory 和 applicationcontext两个容器的区别
+
+如果 Bean 的某一个属性没有注入，使用 BeanFacotry 加载后，第一次调用 getBean() 方法时会抛出异常，而 ApplicationContext 则会在初始化时自检，这样有利于检查所依赖的属性是否注入。
+因此，在实际开发中，通常都选择使用 ApplicationContext，只有在系统资源较少时，才考虑使用 BeanFactory。本教程中使用的是 ApplicationContext 容器。
 
 
 
-springmvc拦截器
+### springmvc拦截器
 
-mybatis动态sql 其中一个线程为什么是start方法而不是run方法呢
+Spring MVC中的拦截器（Interceptor）类似于Servlet中的过滤器（Filter），它主要用于拦截用户请求并作相应的处理。例如通过拦截器可以进行权限验证、记录请求信息的日志、判断用户是否登录等。
+要使用Spring MVC中的拦截器，就需要对拦截器类进行定义和配置。通常拦截器类可以通过两种方式来定义。
+1.通过实现HandlerInterceptor接口，或继承HandlerInterceptor接口的实现类（如HandlerInterceptorAdapter）来定义。
 
-jmm
+2.通过实现WebRequestInterceptor接口，或继承WebRequestInterceptor接口的实现类来定义。
 
-java多线程同步实现、
+#### mybatis动态sql 其中一个线程为什么是start方法而不是run方法呢
 
-hashcode作用
+start 方法会调用start0方法，start0是native方法，会启动一个线程，由虚拟机去调用线程的run方法，这里由于重写了父类的run方法，所以调用子类的run方法
+
+####  hashcode作用
+
+1、HashCode的存在主要是为了查找的快捷性，HashCode是用来在散列存储结构中确定对象的存储地址的
+
+2、如果两个对象equals相等，那么这两个对象的HashCode一定也相同
+
+3、如果对象的equals方法被重写，那么对象的HashCode方法也尽量重写
+
+4、如果两个对象的HashCode相同，不代表两个对象就相同，只能说明这两个对象在散列存储结构中，存放于同一个位置Java中的hashCode方法就是根据一定的规则将与对象相关的信息（比如对象的存储地址，对象的字段等）映射成一个数值，这个数值称作为散列值
 
 
 
 error和exception有什么区别
 
-springaop
+springaop 
 
-mysql' 索引失效
-
-数据库表创建索引
+ 
 
 
 
@@ -818,3 +832,219 @@ boolean
 多态
 说白了，就是一个相同的指令发出，不同的对象会对这个指令有不同的反应，所以称为多态。
 
+1、SpringBoot自动配置的原理是什么？
+SpringBoot启动的时候通过@EnableAutoConfiguration注解找到META-INF/spring.factories配置文件中所有的自动配置类，并对其进行加载，而这些自动配置类的类名都是以AutoConfiguration结尾来命名的，它实际上就是一个javaConfig形式的Spring容器配置类，它们都有一个@EnableConfigurationPerperties的注解，通过这个注解启动XXXProperties命名的类去加载全局配置中的属性，如server.port,而XXXProperties通过@ConfigurationProperties注解将全局配置文件中的属性与自己的属性进行绑定。
+
+2、SpringBoot 配置加载顺序?
+1、 properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
+
+3、spring boot初始化环境变量流程?
+1、 调用prepareEnvironment方法去设置环境变量
+
+2、 接下来有三个方法getOrCreateEnvironment，configureEnvironment，environmentPrepared
+
+3、 getOrCreateEnvironment去初始化系统环境变量
+
+4、 configureEnvironment去初始化命令行参数
+
+5、 environmentPrepared当广播到来的时候调用onApplicationEnvironmentPreparedEvent方法去使用postProcessEnvironment方法load yml和properties变量
+
+4、运行 SpringBoot 有哪几种方式？
+1、 打包用命令或者者放到容器中运行
+
+2、 用 Maven/ Gradle 插件运行
+
+3、 直接执行 main 方法运行
+
+#### **问题五：Spring Boot 还提供了其它的哪些 Starter Project Options？**
+
+Spring Boot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
+
+spring-boot-starter-web-services - SOAP Web Services
+
+spring-boot-starter-web - Web 和 RESTful 应用程序
+
+spring-boot-starter-test - 单元测试和集成测试
+
+spring-boot-starter-jdbc - 传统的 JDBC
+
+spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能
+
+spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权
+
+spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA
+
+spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务
+
+#### 问题十二 什么是 Spring Date？
+
+来自：//projects.spring.io/spring- data/
+
+> Spring Data 的使命是在保证底层数据存储特殊性的前提下，为数据访问提供一个熟悉的，一致性的，基于 Spring 的编程模型。这使得使用数据访问技术，关系数据库和非关系数据库，map-reduce 框架以及基于云的数据服务变得很容易。
+
+为了让它更简单一些，Spring Data 提供了不受底层数据源限制的 Abstractions 接口。
+
+下面来举一个例子
+
+![img](https://ask.qcloudimg.com/http-save/3421842/5cbuxgvbxw.jpeg?imageView2/2/w/1620)
+
+你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
+
+#### 问题十九 RequestMapping 和 GetMapping 的不同之处在哪里？
+
+- RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。
+- GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+
+#### 问题二十 为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+
+我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
+
+通过 Spring Data REST 你可以把你的数据实体作为 RESTful 服务直接发布。
+
+当你设计 RESTful 服务器的时候，最佳实践表明，你的接口应该考虑到两件重要的事情：
+
+- 你的模型范围。
+- 你的客户。
+
+通过 With Spring Data REST，你不需要再考虑这两个方面，只需要作为 TEST 服务发布实体。
+
+这就是为什么我们建议使用 Spring Data Rest 在快速原型构造上面，或者作为项目的初始解决方法。对于完整演变项目来说，这并不是一个好的注意。
+
+
+
+**5、Spring Boot 的核心注解是哪个？它主要由哪几个注解组成的？**
+
+启动类上面的注解是@SpringBootApplication，它也是 Spring Boot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。
+
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+### 1.10 SpringBoot、Spring MVC和Spring有什么区别？
+
+- **Spring**
+  Spring最重要的特征是依赖注入。所有Spring Modules不是依赖注入就是IOC控制反转。
+  当我们恰当的使用DI或者是IOC的时候，可以开发松耦合应用。
+- **Spring MVC**
+  Spring MVC提供了一种分离式的方法来开发Web应用。通过运用像DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
+- **SpringBoot**
+  Spring和Spring MVC的问题在于需要配置大量的参数。
+  SpringBoot通过一个自动配置和启动的项来解决这个问题。
+
+### 3.2 比较一下Spring Security 和Shiro各自的优缺点 ?
+
+由于SpringBoot官方提供了大量的非常方便的开箱即用的Starter，包括Spring Security的Starter ，使得在 SpringBoot中使用Spring Security变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro和Spring Security相比，主要有如下一些特点：
+
+1. Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
+2. Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
+3. Spring Security 功能强大；Shiro 功能简单
+
+
+
+
+
+
+
+####  前后端分离，如何维护接口文档 ?
+
+前后端分离开发日益流行，大部分情况下，我们都是通过 Spring Boot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 Spring Boot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
+
+### 4.12 如何使用SpringBoot实现异常处理？
+
+Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
+
+### [11、什么是WebSockets？](https://link.zhihu.com/?target=https%3A//gitee.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot%E6%9C%80%E6%96%B0%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%8A%E7%AD%94%E6%A1%88%E9%99%84%E7%AD%94%E6%A1%88%E6%B1%87%E6%80%BB.md%231%E4%BB%80%E4%B9%88%E6%98%AFwebsockets)
+
+WebSocket是一种计算机通信协议，通过单个TCP连接提供全双工通信信道。
+
+![img_2.png][img_0826_04_2.png]
+
+**1、** WebSocket是双向的 -使用WebSocket客户端或服务器可以发起消息发送。
+
+**2、** WebSocket是全双工的 -客户端和服务器通信是相互独立的。
+
+**3、** 单个TCP连接 -初始连接使用HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
+
+**4、** Light -与http相比，WebSocket消息数据交换要轻得多。
+
+
+
+[进程](https://zh.wikipedia.org/zh-cn/进程)（process）和[线程](https://zh.wikipedia.org/zh-cn/线程)（thread）是操作系统的基本概念，但是它们比较抽象，不容易掌握。
+
+最近，我读到一篇[材料](http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html)，发现有一个很好的类比，可以把它们解释地清晰易懂。
+
+1.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042401.jpg)
+
+计算机的核心是CPU，它承担了所有的计算任务。它就像一座工厂，时刻在运行。
+
+2.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042402.png)
+
+假定工厂的电力有限，一次只能供给一个车间使用。也就是说，一个车间开工的时候，其他车间都必须停工。背后的含义就是，单个CPU一次只能运行一个任务。
+
+3.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042403.jpg)
+
+进程就好比工厂的车间，它代表CPU所能处理的单个任务。任一时刻，CPU总是运行一个进程，其他进程处于非运行状态。
+
+4.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042404.jpg)
+
+一个车间里，可以有很多工人。他们协同完成一个任务。
+
+5.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042405.jpg)
+
+线程就好比车间里的工人。一个进程可以包括多个线程。
+
+6.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042406.png)
+
+车间的空间是工人们共享的，比如许多房间是每个工人都可以进出的。这象征一个进程的内存空间是共享的，每个线程都可以使用这些共享内存。
+
+7.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042407.jpg)
+
+可是，每间房间的大小不同，有些房间最多只能容纳一个人，比如厕所。里面有人的时候，其他人就不能进去了。这代表一个线程使用某些共享内存时，其他线程必须等它结束，才能使用这一块内存。
+
+8.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042408.jpg)
+
+一个防止他人进入的简单方法，就是门口加一把锁。先到的人锁上门，后到的人看到上锁，就在门口排队，等锁打开再进去。这就叫["互斥锁"](https://zh.wikipedia.org/wiki/互斥锁)（Mutual exclusion，缩写 Mutex），防止多个线程同时读写某一块内存区域。
+
+9.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042409.jpg)
+
+还有些房间，可以同时容纳n个人，比如厨房。也就是说，如果人数大于n，多出来的人只能在外面等着。这好比某些内存区域，只能供给固定数目的线程使用。
+
+10.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042410.jpg)
+
+这时的解决方法，就是在门口挂n把钥匙。进去的人就取一把钥匙，出来时再把钥匙挂回原处。后到的人发现钥匙架空了，就知道必须在门口排队等着了。这种做法叫做["信号量"](https://en.wikipedia.org/wiki/Semaphore_(programming))（Semaphore），用来保证多个线程不会互相冲突。
+
+不难看出，mutex是semaphore的一种特殊情况（n=1时）。也就是说，完全可以用后者替代前者。但是，因为mutex较为简单，且效率高，所以在必须保证资源独占的情况下，还是采用这种设计。
+
+11.
+
+![img](http://www.ruanyifeng.com/blogimg/asset/201304/bg2013042411.png)
+
+操作系统的设计，因此可以归结为三点：
+
+（1）以多进程形式，允许多个任务同时运行；
+
+（2）以多线程形式，允许单个任务分成不同的部分运行；
+
+（3）提供协调机制，一方面防止进程之间和线程之间产生冲突，另一方面允许进程之间和线程之间共享资源。
