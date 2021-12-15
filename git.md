@@ -67,3 +67,8 @@ git remote add origin  git@github.com:JianhaoChung/DGL_GCNER.git
 ```bash
 git push -u origin master
 ```
+
+git add .
+git commit -m "first commit"
+git push -u origin master
+
